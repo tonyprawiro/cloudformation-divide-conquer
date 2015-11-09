@@ -68,12 +68,13 @@ for sInputResourceID, value in stInputResources.items():
 	resultValue = value
 	if isinstance(value, str) or isinstance(value, unicode):
 		aSegments = value.split("::")
-		if len(aSegments) == 3 and aSegments[0] == "Resources":
-			sSegmentResourceType = aSegments[1]
-			sSegmentResourceID = aSegments[2]
+		if len(aSegments) == 4 and aSegments[0] == "Resources":
+			sSegmentResourceProd = aSegments[1]
+			sSegmentResourceType = aSegments[2]
+			sSegmentResourceID = aSegments[3]
 			if sSegmentResourceID == "~":
 				sSegmentResourceID = sInputResourceID
-			sValueFile = "%s/Resources/%s/%s.json" % (sCWD, sSegmentResourceType, sSegmentResourceID)
+			sValueFile = "%s/Resources/%s/%s/%s.json" % (sCWD, sSegmentResourceProd, sSegmentResourceType, sSegmentResourceID)
 			if os.path.isfile(sValueFile):
 				try:
 					with open(sValueFile) as value_file:
@@ -84,7 +85,7 @@ for sInputResourceID, value in stInputResources.items():
 				# The resourcetype/id.json file does not exist
 				print "N/ Parsing `%s`: unable to locate file: %s" % (sInputResourceID, sValueFile)
 		else:
-			# Value isn't in "Resources::yeah::whatever" format 
+			# Value isn't in "Resources::yeah::right::whatever" format 
 			print "N/ Parsing `%s`: value is string but isn't in supported pointer format: %s" % (sInputResourceID, value)
 	else:
 		# Value is not a string
